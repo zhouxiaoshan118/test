@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zte.zudp.modules.sys.article.dao.DailyArticleDao">
+
+   
+
+    <resultMap type="com.zte.zudp.modules.sys.article.entity.DailyArticle" id="articleMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title" />
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="push_date" property="pushDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="create_date" property="createDate"/>
+        <result column="push_person" property="pushPerson"/>
+        <result column="description" property="description"/>
+        <result column="content" property="content"/>
+        <result column="is_audit" property="isAudit" />
+        <result column="image" property="image" />
+        <result column="hits" property="hits" />
+        <result column="weight" property="weight" />
+        <result column="remarks" property="remarks" />
+        <result column="del_flag" property="delFlag" />
+        <result column="update_user" property="updateUser.id"/>
+        <result column="create_user" property="createUser.id"/>
+    </resultMap>
+    
+    <resultMap type="com.zte.zudp.modules.sys.article.entity.DailyArticle" id="linkArticleMap">
+    	<id column="id" property="id" />
+    	<result column="title" property="title" />
+    	<result column="push_date" property="pushDate"/>
+    	<result column="push_person" property="pushPerson"/>
+    	<result column="description" property="description"/>
+        <result column="content" property="content"/>
+        <result column="is_audit" property="isAudit" />
+        <result column="weight" property="weight" />
+        <result column="hits" property="hits" />
+        <result column="image" property="image" />
+        <result column="actuals_id" property="actualsId" />
+        <association property="officer" javaType="com.zte.zudp.modules.sys.user.entity.Officer">
+        	<id column="officerId" property="id" />
+        	<result column="officerName" property="name" />
+        	<result column="officerImage" property="image" />
+        </association>
+    </resultMap>
+
+    <sql id="articleColumn">
+        ad.id,
+        ad.title ,
+        ad.push_date ,
+        ad.update_time,
+        ad.push_person,
+        ad.description ,
+        ad.content ,
+        ad.is_audit,
+        ad.image ,
+        ad.hits,
+        ad.create_user,
+        ad.remarks ,
+        ad.del_flag,
+        ad.weight,
+        ad.create_date,
+        ad.update_user,
+        ad.update_date,
+        ad.create_time,
+        ad.article_root
+    </sql>
+    
+    
+    
+	<select id="getDailyArticles" resultMap="linkArticleMap" useCache="true">
+		SELECT
+			 <include refid="articleColumn" />,
+			 o.id as officerId,
+			 o.name as officerName,
+			 o.image as officerImage 
+		FROM
+			daily_article ad
+		LEFT JOIN 
+			sys_officer o
+		ON (ad.officer_id = o.id)
+		WHERE ad.actuals_id = #{id} 
+		AND ad.del_flag = 0
+		ORDER BY ad.push_date desc
+	</select>
+
+    <select id="get" resultMap="articleMap" useCache="true">
+        SELECT <include refid="articleColumn" />
+        FROM daily_article ad
+        WHERE ad.id = #{id}
+    </select>
+
+    <select id="findList" resultMap="linkArticleMap">
+        SELECT 
+		<include refid="articleColumn" />,
+		o.id as officerId,
+		o.name as officerName,
+		o.image as officerImage
+        FROM
+			daily_article ad
+		LEFT JOIN 
+			sys_officer o
+		ON (ad.officer_id = o.id)
+        <where>
+            ad.del_flag = 0
+            <if test="title != null and title != ''">
+                AND ad.title LIKE concat('%', #{title}, '%')
+            </if>
+            <if test=" articleRoot == 1 " >
+            	AND ad.actuals_id = #{actualsId} 
+            </if>
+        </where>
+        	ORDER BY ad.push_date desc
+        <!-- ORDER BY ad.weight -->
+    </select>
+    
+    <select id="selectList" resultMap="articleMap">
+         SELECT <include refid="articleColumn" /> 
+        FROM daily_article ad
+        <where>
+            ad.del_flag = 0 and
+            ad.is_audit = 0
+            <if test="title != null and title != ''">
+                AND ad.title LIKE concat('%', #{title}, '%')
+            </if>
+             
+        </where>
+        ORDER BY ad.push_date desc
+    </select>
+    
+    <select id="getArticleList" resultMap="articleMap">
+         SELECT <include refid="articleColumn" /> 
+        FROM daily_article ad
+        <where>
+            ad.del_flag = 0
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.zte.zudp.modules.sys.article.entity.DailyArticle">
+        INSERT INTO daily_article (
+            id,
+            title ,
+            push_date ,
+            update_time,
+            push_person,
+            description ,
+            content ,
+            is_audit,
+            image ,
+            hits,
+            create_user,
+            remarks ,
+            weight,
+            create_date,
+            update_user,
+            update_date,
+            create_time,
+            officer_id,
+            actuals_id,
+            article_root
+        ) VALUES (
+            #{id},
+            #{title },
+            #{pushDate},
+            #{updateTime},
+            #{pushPerson},
+            #{description },
+            #{content },
+            0,
+            #{image },
+            #{hits},
+            #{createUser.id},
+            #{remarks },
+            #{weight},
+            #{createDate},
+            #{updateUser.id},
+            #{updateDate},
+            #{createTime},
+            #{officerId},
+            #{actualsId},
+            #{articleRoot}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.zte.zudp.modules.sys.article.entity.DailyArticle">
+        UPDATE daily_article ad SET
+        	ad.id = #{id},
+            ad.title  = #{title},
+            ad.push_date  = #{pushDate},
+            ad.image=#{image},
+            ad.push_person = #{pushPerson},
+            ad.description  = #{description },
+            ad.content  = #{content }
+        WHERE ad.id = #{id}
+    </update>
+    
+     <update id="updateAudit" parameterType="com.zte.zudp.modules.sys.article.entity.DailyArticle">
+        UPDATE daily_article ad SET
+        	ad.is_audit = 1
+        WHERE ad.id = #{id}
+    </update>
+
+    <delete id="delete">
+        UPDATE daily_article
+            SET del_flag = 1
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        UPDATE daily_article SET
+          del_flag = 1
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

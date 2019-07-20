@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zte.zudp.modules.sys.role.dao.RoleDao">
+
+    <resultMap type="com.zte.zudp.modules.sys.role.entity.Role" id="roleMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="role" property="role"/>
+        <result column="description" property="description"/>
+        <result column="actived" property="actived" />
+        <result column="create_date" property="createDate" />
+        <result column="create_user" property="createUser.id" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_user" property="updateUser.id" />
+        <result column="del" property="del" />
+    </resultMap>
+
+    <sql id="roleColumn">
+        r.id,
+        r.name,
+        r.role,
+        r.description,
+        r.actived,
+        r.create_date,
+        r.create_user,
+        r.update_date,
+        r.update_user
+    </sql>
+
+    <select id="get" resultMap="roleMap">
+        SELECT <include refid="roleColumn" />
+        FROM sys_role r
+        WHERE r.id = #{id}
+    </select>
+
+    <select id="findList" resultMap="roleMap">
+        SELECT <include refid="roleColumn" />
+        FROM sys_role r
+        <where>
+            r.del = 0
+            <if test="name != null and name != ''">
+                AND r.name LIKE concat('%', #{name}, '%')
+            </if>
+            <if test="role != null and role != ''">
+                AND r.role = #{role}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAccountsSra" resultType="com.zte.zudp.modules.sys.role.entity.Role">
+        SELECT sru.user_id AS 'id'
+        FROM sys_role_user sru
+        WHERE sru.role_id = #{id}
+    </select>
+
+    <select id="findActivedRoles" resultType="com.zte.zudp.modules.sys.role.entity.Role">
+        SELECT <include refid="roleColumn" />
+        FROM sys_role r
+        WHERE r.id IN
+        <foreach collection="list" separator="," open="(" close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findActivedPermissionIds" resultType="java.lang.String">
+        SELECT m.id
+        FROM sys_role_menu srm
+        LEFT JOIN sys_menu m ON srm.menu_id = m.id AND m.actived = 1
+        WHERE srm.role_id = #{id};
+    </select>
+
+    <insert id="insert" parameterType="com.zte.zudp.modules.sys.role.entity.Role">
+        INSERT INTO sys_role (
+            id,
+            name,
+            role,
+            description,
+            actived,
+            create_date,
+            create_user,
+            update_date,
+            update_user
+        ) VALUES (
+            #{id},
+            #{name},
+            #{role},
+            #{description},
+            #{actived},
+            #{createDate},
+            #{createUser.id},
+            #{updateDate},
+            #{updateUser.id}
+        )
+    </insert>
+
+    <insert id="insertSrmBash" parameterType="com.zte.zudp.common.persistence.entity.AssociationEntity">
+        INSERT INTO sys_role_menu (id, role_id, menu_id)
+        VALUES
+            <foreach collection="list" item="ae" separator=",">
+                (#{ae.id}, #{ae.one}, #{ae.other})
+            </foreach>
+    </insert>
+
+    <insert id="insertSraBash" parameterType="com.zte.zudp.common.persistence.entity.AssociationEntity">
+        INSERT INTO sys_role_user (id, role_id, user_id)
+        VALUES
+        <foreach collection="list" item="ae" separator=",">
+            (#{ae.id}, #{ae.one}, #{ae.other})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.zte.zudp.modules.sys.role.entity.Role">
+        UPDATE sys_role SET
+            name = #{name},
+            role = #{role},
+            description = #{description},
+            actived = #{actived},
+            update_date = #{updateDate},
+            update_user = #{updateUser.id}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteSraBash" parameterType="com.zte.zudp.modules.sys.role.entity.Role">
+        DELETE FROM sys_role_user
+        WHERE role_id = #{id}
+    </delete>
+
+    <delete id="deleteSrmBash" parameterType="com.zte.zudp.modules.sys.role.entity.Role">
+        DELETE FROM sys_role_menu
+        WHERE role_id = #{id}
+    </delete>
+
+    <delete id="deleteSra" parameterType="com.zte.zudp.common.persistence.entity.AssociationEntity">
+        DELETE FROM sys_role_user sru
+        WHERE sru.role_id = #{one} AND sru.user_id = #{other}
+    </delete>
+
+    <delete id="delete">
+        UPDATE sys_role
+        SET del = 1
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        UPDATE sys_role SET
+        del = 1
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

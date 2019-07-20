@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zte.zudp.modules.sys.actuals.dao.ActualsDao">
+
+	<cache />
+
+	<resultMap type="com.zte.zudp.modules.sys.actuals.entity.Actuals"
+		id="ActualMap">
+		<id column="id" property="id" />
+		<result column="actual_name" property="name" />
+		<result column="actual_describe" property="describe" />
+		<result column="actual_person" property="person" />
+		<result column="deveNum" property="deveNum" />
+		<result column="actual_status" property="projectstatus" />
+		<result column="actual_weight" property="weight" />
+		<result column="create_date" property="createDate" />
+		<result column="create_user" property="createUser.id" />
+		<result column="update_date" property="updateDate" />
+		<result column="update_user" property="updateUser.id" />
+		<result column="actual_startTime" property="startTime" />
+		<result column="actual_endTime" property="endTime" />
+		<result column="resear_status" property="researStatus" />
+		<result column="actual_target" property="actualTarget" />
+		<result column="developersString" property="developersString" />
+		<result column="resear_stage" property="researStage" />
+		<result column="del" property="delFlag" />
+	</resultMap>
+	
+	<resultMap type="com.zte.zudp.modules.sys.user.entity.Officer"
+		id="officerMap">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="image" property="image" />
+		<result column="telephone" property="telephone" />
+	</resultMap>
+	
+
+	<sql id="actualColumn">
+		a.id,
+		a.actual_name,
+		a.actual_describe,
+		a.actual_person,
+		a.deveNum,
+		a.actual_status,
+		a.actual_weight,
+		a.actual_startTime,
+		a.actual_endTime,
+		a.create_date,
+		a.create_user,
+		a.update_date,
+		a.update_user,
+		a.resear_status,
+		a.actual_target,
+		a.resear_stage,
+		a.developersString,
+		a.del
+	</sql>
+	<sql id="officerColumn">
+		o.id,
+		o.name
+	</sql>
+	<sql id="linkOfficerColumn">
+		o.id,
+		o.name,
+		o.image,
+		o.telephone		
+	</sql>
+
+	<select id="get" resultMap="ActualMap" useCache="true">
+		SELECT
+		<include refid="actualColumn" />
+		FROM sys_actual a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getOfficer" resultMap="officerMap" useCache="true">
+		SELECT
+		<include refid="linkOfficerColumn" />
+		FROM sys_officer o
+		WHERE o.user_id = #{id}
+	</select>
+	
+	<select id="getActuals" resultMap="ActualMap" useCache="true">
+		SELECT 
+		<include refid="actualColumn" /> 
+		FROM sys_actual a
+		WHERE a.del = 0
+	</select>
+	
+	<select id="getOfficers" resultMap="officerMap" useCache="true">
+		SELECT 
+		<include refid="officerColumn" /> 
+		FROM sys_officer o
+		WHERE o.delState = '1'
+		
+	</select>
+	
+	<select id="getActualsInfo" resultMap="ActualMap" useCache="true">
+		SELECT 
+			<include refid="actualColumn" />
+		FROM sys_actual a
+		WHERE a.del = 0 and
+		a.id = #{id} 
+	</select>
+
+	<select id="findList" resultMap="ActualMap" useCache="false">
+		SELECT
+		<include refid="actualColumn" />
+		FROM sys_actual a
+		WHERE a.del = 0
+		<!-- <if test="status != null"> and d.status = #{status} </if> <if test="type 
+			!= null and type != ''"> AND d.type LIKE CONCAT('%', #{type}, '%') </if> 
+			<if test="label != null and label != ''"> AND d.label LIKE CONCAT('%', #{label}, 
+			'%') </if> -->
+		<if test="name !=null and name != ''">
+			and a.actual_name like concat('%',#{name},'%')
+		</if>
+		ORDER BY a.create_date desc
+	</select>
+	
+	<select id="findListByName" resultMap="ActualMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+		<include refid="actualColumn" />
+		FROM sys_actual a
+		WHERE a.del = 0
+		<!-- <if test="status != null"> and d.status = #{status} </if> <if test="type 
+			!= null and type != ''"> AND d.type LIKE CONCAT('%', #{type}, '%') </if> 
+			<if test="label != null and label != ''"> AND d.label LIKE CONCAT('%', #{label}, 
+			'%') </if> -->
+		<if test="_parameter !=null and _parameter != ''">
+			and a.actual_name like concat('%',#{_parameter},'%')
+		</if>
+		ORDER BY a.actual_weight
+	</select>
+	
+	<select id="getLinkOfficers" resultMap="officerMap">
+		SELECT
+		<include refid="linkOfficerColumn"/>
+		FROM sys_officer o JOIN sys_officer_actual soa
+		ON o.id = soa.officer_id 
+		WHERE soa.actual_id = #{id}
+	</select>
+	
+	<select id="getPerson" resultMap="officerMap">
+		SELECT
+		<include refid="linkOfficerColumn"/>
+		FROM sys_officer o
+		WHERE o.id = #{name};
+	</select>
+	
+	
+
+	<insert id="insert" parameterType="com.zte.zudp.modules.sys.actuals.entity.Actuals">
+		INSERT INTO sys_actual (
+		id,
+		actual_name,
+		actual_describe,
+		actual_person,
+		deveNum,
+		actual_status,
+		actual_startTime,
+		actual_endTime,
+		actual_weight,
+		create_date,
+		create_user,
+		update_date,
+		update_user,
+		resear_status,
+		actual_target,
+		resear_stage,
+		developersString,
+		del,
+		filesSrc
+		) VALUES (
+		#{id},
+		#{name},
+		#{describe},
+		#{person},
+		#{deveNum},
+		#{projectstatus},
+		#{startTime},
+		#{endTime},
+		#{weight},
+		#{createDate},
+		#{createUser.id},
+		#{updateDate},
+		#{updateUser.id},
+		#{researStatus},
+		#{actualTarget},
+		#{researStage},
+		#{developersString},
+		#{del},
+		#{filesSrc}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.zte.zudp.modules.sys.actuals.entity.Actuals">
+		UPDATE sys_actual a SET
+		a.actual_name = #{name},
+		a.actual_describe = #{describe},
+		a.actual_person = #{person},
+		a.deveNum=#{deveNum},
+		a.actual_status = #{projectstatus},
+		a.actual_weight = #{weight},
+		a.actual_startTime = #{startTime},
+		a.actual_endTime = #{endTime},
+		a.update_date = #{updateDate},
+		a.update_user = #{updateUser.id},
+		a.resear_status = #{researStatus},
+		a.actual_target = #{actualTarget},
+		a.resear_stage = #{researStage},
+		a.developersString = #{developersString},
+		a.filesSrc=#{filesSrc}
+		WHERE a.id = #{id}
+	</update>
+
+	<delete id="delete">
+		UPDATE sys_actual
+		SET del = 1
+		WHERE id = #{id}
+	</delete>
+
+	<delete id="batchDelete">
+		UPDATE sys_actual SET
+		del = 1
+		WHERE id IN
+		<foreach collection="array" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

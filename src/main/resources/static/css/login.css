@@ -1,0 +1,19 @@
+.loginscreen.middle-box {
+    width: 420px;
+}
+form.m-t {
+    width: 300px;
+    margin: 0 auto;
+}
+input.form-control {
+    height: 38px;
+}
+.captcha{
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+#footer {
+    line-height: 50px;
+    text-align: center;
+}

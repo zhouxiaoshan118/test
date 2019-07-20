@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>列表</title>
+	<link rel="stylesheet" href="css/animate.min.css">
+	<link rel="stylesheet" href="css/jquery.gDialog.css">
+	<link rel="stylesheet" href="css/index.css">
+	<script src="js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<div class="container container-lsbg">
+		<div class="content-list">
+			<div class="list-left">
+				<div class="left-title">
+					<h3>XX动态</h3>
+				</div>
+				<ul>
+					<li class="ul-list">
+						<div class="imgbox">
+							<img src="" alt="">
+						</div>
+						<div class="font-box">
+							<div class="font-title">深圳app开发公司烧烤会</div>
+							<div class="font-info">
+								广东的天气逐渐变凉，又到了适合吃火锅和烧烤的季节。深圳app开发公司东方智启科技这次没有选择在周末举行活动，选择在周四下班的晚上举行了一场烧烤会，行政部的小姐姐早就已经场地定好，等待我们过去嗨。
+								<a href="#" class="demo-1">[阅读全文]</a>
+							</div>
+							<div class="font-time">
+								<span>2017-12-18</span>
+							</div>
+						</div>
+					</li>
+					<li class="ul-list">
+						<div class="imgbox">
+							<img src="" alt="">
+						</div>
+						<div class="font-box">
+							<div class="font-title">深圳app开发公司烧烤会</div>
+							<div class="font-info">
+								广东的天气逐渐变凉，又到了适合吃火锅和烧烤的季节。深圳app开发公司东方智启科技这次没有选择在周末举行活动，选择在周四下班的晚上举行了一场烧烤会，行政部的小姐姐早就已经场地定好，等待我们过去嗨。
+								<a href="#">[阅读全文]</a>
+							</div>
+							<div class="font-time">
+								<span>2017-12-18</span>
+							</div>
+						</div>
+					</li>
+					<li class="ul-list">
+						<div class="imgbox">
+							<img src="" alt="">
+						</div>
+						<div class="font-box">
+							<div class="font-title">深圳app开发公司烧烤会</div>
+							<div class="font-info">
+								广东的天气逐渐变凉，又到了适合吃火锅和烧烤的季节。深圳app开发公司东方智启科技这次没有选择在周末举行活动，选择在周四下班的晚上举行了一场烧烤会，行政部的小姐姐早就已经场地定好，等待我们过去嗨。
+								<a href="#">[阅读全文]</a>
+							</div>
+							<div class="font-time">
+								<span>2017-12-18</span>
+							</div>
+						</div>
+					</li>
+					<li class="ul-list">
+						<div class="imgbox">
+							<img src="" alt="">
+						</div>
+						<div class="font-box">
+							<div class="font-title">深圳app开发公司烧烤会</div>
+							<div class="font-info">
+								广东的天气逐渐变凉，又到了适合吃火锅和烧烤的季节。深圳app开发公司东方智启科技这次没有选择在周末举行活动，选择在周四下班的晚上举行了一场烧烤会，行政部的小姐姐早就已经场地定好，等待我们过去嗨。
+								<a href="#">[阅读全文]</a>
+							</div>
+							<div class="font-time">
+								<span>2017-12-18</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="pagebox" >
+		            <a href="#" class="prev"><</a>
+		            <a href="#" class="pg-li on">1</a>
+		            <a href="#" class="pg-li">2</a>
+		            <a href="#" class="pg-li">3</a>
+		            <a href="#" class="pg-li">4</a>
+		            <a href="#" class="pg-li">5</a>
+		            <a href="#" class="pg-li">6</a>
+		            <a href="#" class="next">></a>
+		        </div>
+			</div>
+			<div class="list-right">
+				<div class="left-title">
+					<h3>XX动态</h3>
+				</div>
+				<div class="right-top-box">
+					
+					<div class="right-erimg">
+						<img src="" alt="二维码" class="erimg">
+					</div>
+					<div class="erimg-info">
+						<p>11</p>
+						<p>22</p>
+					</div>
+				</div>
+				<div class="left-title">
+					<h3>XX动态</h3>
+				</div>
+				<div class="right-bot-box">
+					<div class="top-tit">
+						<p >热文排行</p>
+					</div>
+					<div class="btm-waiter">
+						<ul>
+							<li><a href="#">热文排行</a></li>
+							<li><a href="#">热文排行</a></li>
+							<li><a href="#">热文排行</a></li>
+							<li><a href="#">热文排行</a></li>
+							<li><a href="#">热文排行</a></li>
+							<li><a href="#">热文排行</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery.gDialog.js"></script>
+	<script>
+		$(".container").css("min-height",$(window).height());
+		$(".container").css("height",$(document).height());
+		$('.demo-1').click(function(){
+		  $.gDialog.alert("<div>111</div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse libero erat, scelerisque sit amet dolor nec, euismod feugiat massa.", {
+		    title: "Alert Dialog Box",
+		    required: true,
+		 	animateIn : "rollIn",
+		    animateOut: "rollOut"
+		  });
+		});
+	</script>
+</body>
+</html>

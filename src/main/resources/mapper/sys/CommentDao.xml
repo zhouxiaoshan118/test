@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zte.zudp.modules.sys.actuals.dao.CommentDao">
+
+    <cache />
+    <sql id="commentColumn">
+        c.id,
+        c.comment_id,
+        c.repeat_id,
+        c.article_id,
+        c.commentDate,
+        c.commentContent,
+        c.level,
+    </sql>
+    
+    <resultMap type="com.zte.zudp.modules.sys.actuals.entity.Comment" id="commentMap">
+    	<id column="id" property="id" />
+    	<result column="commentDate" property="commentDate" />
+    	<result column="commentContent" property="commentContent" />
+    	<result column="level" property="level" />
+    	<association property="commentUser" javaType="com.zte.zudp.modules.sys.user.entity.Officer">
+    		<id column="o_id" property="id" />
+        	<result column="o_name" property="name" />
+        	<result column="o_image" property="image" />
+    	</association>
+    	<association property="repeatUser" javaType="com.zte.zudp.modules.sys.user.entity.Officer">
+    		<id column="r_id" property="id" />
+        	<result column="r_name" property="name" />
+        	<result column="r_image" property="image" />
+    	</association>
+    </resultMap>
+    
+    <!-- <sql id="officerList">
+		o.id,
+		o.name,
+		o.image,
+		o.job,
+		o.skill
+	</sql> -->
+	
+	<!-- <sql id="officerDetail">
+		o.id,
+		o.name,
+		o.image,
+		o.sex,
+		o.address,
+		o.telephone,
+		o.email,
+		o.job,
+		o.skill,
+		o.hobby,
+		o.educational,
+		o.work,
+		o.experience,
+		o.evaluate
+	</sql> -->
+	
+	
+	<!-- <select id="getOfficerList"   resultType="com.zte.zudp.modules.sys.user.entity.Officer">
+		SELECT
+			<include refid="officerList"/>
+		FROM sys_officer o	
+		WHERE o.delState=1
+		ORDER BY o.weight desc
+	</select> -->
+	
+   <select id="getOfficerByUserId" resultType="com.zte.zudp.modules.sys.user.entity.Officer" useCache="true">
+        SELECT 
+        	o.id,
+        	o.name,
+        	o.image
+        FROM sys_officer o
+        WHERE o.user_id = #{user_id} AND o.delState=1
+    </select> 
+
+    <select id="findList" resultMap="commentMap" useCache="false">
+        SELECT 
+        <include refid="commentColumn" />
+        o.id as o_id,
+        o.image as o_image,
+        o.name as o_name,
+        r.id as r_id,
+        r.image as r_image,
+        r.name as r_name
+        FROM 
+        sys_comment c 
+        LEFT JOIN
+        sys_officer o
+        ON (c.comment_id = o.id)
+        LEFT JOIN
+        sys_officer r
+        ON (c.repeat_id = r.id)
+        WHERE 
+        c.delfalg = 1
+        AND 
+        c.article_id = #{articleId}	
+        ORDER BY c.commentDate 
+    </select> 
+
+   <insert id="insert" parameterType="com.zte.zudp.modules.sys.actuals.entity.Comment">
+        INSERT INTO sys_comment (
+            id,
+            comment_id,
+            repeat_id,
+            article_id,
+            commentDate,
+            commentContent,
+            delfalg,
+            level
+        ) VALUES (
+          	#{id},
+            #{commentId},
+            #{repeatId},
+            #{articleId},
+            #{commentDate},
+            #{commentContent},
+            #{delfalg},
+            #{level}
+        )
+    </insert>
+
+<!--   <update id="update" parameterType="com.zte.zudp.modules.sys.user.entity.Officer">
+        UPDATE sys_officer o SET
+            o.name=#{name},
+            o.image=#{image},
+            o.jobState=#{jobState},
+            o.sex=#{sex},
+            o.job=#{job},
+            o.department=#{department},
+            o.weight=#{weight},
+            o.telephone=#{telephone},
+            o.email=#{email},
+            o.skill=#{skill},
+            o.hobby=#{hobby},
+            o.address=#{address},
+            o.delState=#{delState},
+            o.discription=#{discription},
+            o.educational=#{educational},
+            o.work=#{work},
+            o.experience=#{experience},
+            o.evaluate=#{evaluate}
+        WHERE o.id = #{id}
+    </update> -->
+   	
+   	<!-- <delete id="batchDelete">
+        UPDATE sys_officer SET
+          delState = 0
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete> 
+
+    <delete id="delete">
+        UPDATE sys_officer
+            SET delState = 0
+        WHERE id = #{id}
+    </delete> -->
+
+    
+
+</mapper>

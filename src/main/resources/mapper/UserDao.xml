@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zte.zudp.modules.sys.user.dao.UserDao">
+
+    <resultMap type="com.zte.zudp.modules.sys.user.entity.User" id="userMap">
+        <id column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="admin" property="admin" jdbcType="BIT"/>
+        <result column="last_access_host" property="lastAccessHost" />
+        <result column="last_access_time" property="lastAccessTime" />
+        <result column="name" property="realname"/>
+        <result column="status" property="status"
+                                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+                                javaType="com.zte.zudp.modules.sys.utils.enums.AccountStatus" />
+        <result column="gender" property="gender" />
+        <result column="create_date" property="createDate" />
+        <result column="create_user" property="createUser.id" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_user" property="updateUser.id" />
+        <result column="del" property="del" />
+    </resultMap>
+
+    <resultMap type="com.zte.zudp.modules.sys.user.entity.User" id="userPartymemberMap">
+        <id column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="admin" property="admin" jdbcType="BIT"/>
+        <result column="last_access_host" property="lastAccessHost" />
+        <result column="last_access_time" property="lastAccessTime" />
+        <result column="name" property="realname"/>
+        <result column="status" property="status"
+                                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+                                javaType="com.zte.zudp.modules.sys.utils.enums.AccountStatus" />
+        <result column="gender" property="gender" />
+        <result column="create_date" property="createDate" />
+        <result column="create_user" property="createUser.id" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_user" property="updateUser.id" />
+        <result column="del" property="del" />
+        <!--<association property="partymember" javaType="Partymember">-->
+            <!--<id property="id" column="partymember_id"/>-->
+            <!--<result property="no" column="partymember_no"/>-->
+            <!--<result property="avatar" column="partymember_avatar"/>-->
+            <!--<result property="name" column="partymember_name"/>-->
+            <!--<result property="gender" column="partymember_gender"/>-->
+            <!--<result property="birthday" column="partymember_birthday"/>-->
+            <!--<result property="nationality" column="partymember_nationality"/>-->
+            <!--<result property="phone" column="partymember_phone"/>-->
+            <!--<result property="education" column="partymember_education"/>-->
+            <!--<result property="job" column="partymember_job"/>-->
+            <!--<result property="join" column="partymember_join"/>-->
+            <!--<result property="partyDuties" column="partymember_partyDuties"/>-->
+            <!--<result property="adminDuties" column="partymember_adminDuties"/>-->
+            <!--<result property="introUser" column="partymember_introUser"/>-->
+            <!--<result property="address" column="partymember_address"/>-->
+            <!--<result property="photo" column="partymember_photo"/>-->
+            <!--<result property="card" column="partymember_card"/>-->
+            <!--<result property="flow" column="partymember_flow"/>-->
+            <!--<association property="group" javaType="com.zte.sbom.modules.party.group.entity.Group">-->
+                <!--<id property="id" column="partymember_group_id"/>-->
+                <!--<result property="treeName" column="partymember_group_treeName"/>-->
+            <!--</association>-->
+        <!--</association>-->
+    </resultMap>
+
+    <resultMap type="com.zte.zudp.modules.sys.user.entity.User" id="userPartymemberNoGroupMap">
+        <id column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="admin" property="admin" jdbcType="BIT"/>
+        <result column="last_access_host" property="lastAccessHost" />
+        <result column="last_access_time" property="lastAccessTime" />
+        <result column="name" property="realname"/>
+        <result column="status" property="status"
+                                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+                                javaType="com.zte.zudp.modules.sys.utils.enums.AccountStatus" />
+        <result column="gender" property="gender" />
+        <result column="create_date" property="createDate" />
+        <result column="create_user" property="createUser.id" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_user" property="updateUser.id" />
+        <result column="del" property="del" />
+        <!--<association property="partymember" javaType="com.zte.sbom.modules.party.partymember.entity.Partymember">-->
+            <!--<id property="id" column="partymember_id"/>-->
+            <!--<result property="no" column="partymember_no"/>-->
+            <!--<result property="avatar" column="partymember_avatar"/>-->
+            <!--<result property="name" column="partymember_name"/>-->
+            <!--<result property="gender" column="partymember_gender"/>-->
+            <!--<result property="birthday" column="partymember_birthday"/>-->
+            <!--<result property="nationality" column="partymember_nationality"/>-->
+            <!--<result property="phone" column="partymember_phone"/>-->
+            <!--<result property="education" column="partymember_education"/>-->
+            <!--<result property="job" column="partymember_job"/>-->
+            <!--<result property="join" column="partymember_join"/>-->
+            <!--<result property="partyDuties" column="partymember_partyDuties"/>-->
+            <!--<result property="adminDuties" column="partymember_adminDuties"/>-->
+            <!--<result property="introUser" column="partymember_introUser"/>-->
+            <!--<result property="address" column="partymember_address"/>-->
+            <!--<result property="photo" column="partymember_photo"/>-->
+            <!--<result property="card" column="partymember_card"/>-->
+            <!--<result property="flow" column="partymember_flow"/>-->
+            <!--<association property="group" javaType="com.zte.sbom.modules.party.group.entity.Group">-->
+                <!--<id property="id" column="partymember_group_id"/>-->
+            <!--</association>-->
+        <!--</association>-->
+    </resultMap>
+
+    <sql id="userColumn">
+        u.id,
+        u.login_name,
+        u.password,
+        u.salt,
+        u.admin,
+        u.status,
+        u.last_access_host,
+        u.last_access_time,
+        u.name,
+        u.gender,
+        u.create_date,
+        u.create_user,
+        u.update_date,
+        u.update_user,
+        u.del
+    </sql>
+
+    <sql id="userPartymemberColumn">
+        u.id,
+        u.login_name,
+        u.password,
+        u.salt,
+        u.admin,
+        u.status,
+        u.last_access_host,
+        u.last_access_time,
+        u.name,
+        u.gender,
+        u.create_date,
+        u.create_user,
+        u.update_date,
+        u.update_user,
+        u.del
+--         p.id AS "partymember_id",
+--         p.no AS "partymember_no",
+--         p.group AS "partymember_group_id",
+--         p.avatar AS "partymember_avatar",
+--         p.name AS "partymember_name",
+--         p.user AS "partymember_user.id",
+--         p.gender AS "partymember_gender",
+--         p.birthday AS "partymember_birthday",
+--         p.nationality AS "partymember_nationality",
+--         p.phone AS "partymember_phone",
+--         p.education AS "partymember_education",
+--         p.job AS "partymember_job",
+--         p.join AS "partymember_join",
+--         p.party_duties AS "partymember_partyDuties",
+--         p.admin_duties AS "partymember_adminDuties",
+--         p.intro_user AS "partymember_introUser",
+--         p.address AS "partymember_address",
+--         p.photo AS "partymember_photo",
+--         p.card AS "partymember_card",
+--         p.flow AS "partymember_flow"
+    </sql>
+
+    <select id="get" resultMap="userPartymemberNoGroupMap">
+        SELECT <include refid="userPartymemberColumn" />
+        FROM sys_user u LEFT JOIN sys_partymember p ON u.id = p.user
+        WHERE u.id = #{id}
+    </select>
+
+    <select id="getUserByLoginName" resultMap="userPartymemberMap">
+        SELECT <include refid="userColumn" />,
+            p.id AS "partymember_id",
+            p.no AS "partymember_no",
+            p.group AS "partymember_group_id",
+            g.tree_name AS "partymember_group_treeName",
+            p.avatar AS "partymember_avatar",
+            p.name AS "partymember_name",
+            p.user AS "partymember_user.id",
+            p.gender AS "partymember_gender",
+            p.birthday AS "partymember_birthday",
+            p.nationality AS "partymember_nationality",
+            p.phone AS "partymember_phone",
+            p.education AS "partymember_education",
+            p.job AS "partymember_job",
+            p.join AS "partymember_join",
+            p.party_duties AS "partymember_partyDuties",
+            p.admin_duties AS "partymember_adminDuties",
+            p.intro_user AS "partymember_introUser",
+            p.address AS "partymember_address",
+            p.photo AS "partymember_photo",
+            p.card AS "partymember_card",
+            p.flow AS "partymember_flow"
+        FROM sys_user u LEFT JOIN sys_partymember p ON u.id = p.user LEFT JOIN sys_group g ON g.id = p.group
+        WHERE u.login_name = #{loginName} AND u.del = 0
+    </select>
+
+    <select id="findList" resultMap="userPartymemberNoGroupMap">
+        SELECT <include refid="userPartymemberColumn" />
+        FROM sys_user u LEFT JOIN sys_partymember p ON u.id = p.user
+        <where>
+            u.del = 0
+            <if test="loginName != null and loginName != ''">
+                AND u.login_name LIKE concat('%', #{loginName}, '%')
+            </if>
+            <if test="realname != null and realname != ''">
+                AND u.name LIKE concat('%', #{realname}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findRoleIds" resultType="java.lang.String">
+        SELECT sru.role_id
+        FROM sys_user u
+        LEFT JOIN sys_role_user sru ON sru.user_id = u.id
+        WHERE u.id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.zte.zudp.modules.sys.user.entity.User">
+        INSERT INTO sys_user (
+            id,
+            login_name,
+            password,
+            salt,
+            status,
+            admin,
+            `name`,
+            gender,
+            last_access_host,
+            last_access_time,
+            create_user,
+            create_date,
+            update_user,
+            update_date,
+            del
+        ) VALUES (
+            #{id},
+            #{loginName},
+            #{password},
+            #{salt},
+            #{status, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler, javaType=com.zte.zudp.modules.sys.utils.enums.AccountStatus},
+            0,
+            #{realname},
+            #{gender},
+            #{lastAccessHost},
+            #{lastAccessTime},
+            #{createUser.id},
+            #{createDate},
+            #{updateUser.id},
+            #{updateDate},
+            #{del}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.zte.zudp.modules.sys.user.entity.User">
+        UPDATE sys_user u
+        <set>
+            u.name = #{realname},
+            u.status = #{status, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler, javaType=com.zte.zudp.modules.sys.utils.enums.AccountStatus},
+            <if test="password != null and password != ''">
+                u.password = #{password},
+                u.salt = #{salt},
+            </if>
+           <!--  <if test="admin != null and admin != ''">
+            u.admin = #{admin},
+            </if> -->
+            <if test="gender != null">
+                u.gender = #{gender},
+            </if>
+            u.update_date = #{updateDate},
+            u.update_user = #{updateUser.id}
+        </set>
+        WHERE id = #{id}
+    </update>
+    
+    <update id="modifyPassword" parameterType="com.zte.zudp.modules.sys.user.entity.User">
+     UPDATE sys_user u SET
+            u.password = #{password}
+        WHERE u.id = #{id}
+    </update>
+
+    <update id="updateLoginInfo" parameterType="com.zte.zudp.modules.sys.user.entity.User">
+        UPDATE sys_user u SET
+            u.last_access_time = #{lastAccessTime},
+            u.last_access_host = #{lastAccessHost}
+        WHERE u.id = #{id}
+    </update>
+
+    <update id="changePassword" parameterType="com.zte.zudp.modules.sys.user.entity.User">
+        UPDATE sys_user u SET
+        u.password = #{password},
+        u.salt = #{salt},
+        u.update_user = #{updateUser.id},
+        u.update_date = #{updateDate}
+        WHERE u.id = #{id}
+    </update>
+
+    <delete id="delete">
+        UPDATE sys_user
+        SET del = 1
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        UPDATE sys_partymember SET
+        del = 1
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

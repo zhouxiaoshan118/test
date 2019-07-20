@@ -1,0 +1,79 @@
+body{font-family:微软雅黑;color:#000;font-size:12px;background: #FAFAFB}
+*{margin:0;padding: 0;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}
+img{border:none;}
+input,textarea,button{border:none;outline: none;}
+a{text-decoration: none;color:#000;}
+a,a:slide-box{outline: none;}
+li{list-style-type: none;}
+i{font-style: normal;} 
+.clearfix:after{content:"";display: block;height: 0;clear:both;overflow:auto;}
+.z-body{position: relative;min-width: 1280px;}
+
+.z-body .header{min-height: 450px;} 
+.z-body .ip-img{width: 100%;height: 100%;} 
+.z-body .ip-img.sld1{background:url(../img/img11.png) no-repeat 0 100%; background-size: 100% 110%;}
+.z-body .ip-img.sld2{background:url(../img/img33.png) no-repeat 0 100%; background-size: 100% 110%;}
+.z-body .ip-img.sld3{background:url(../img/img22.png) no-repeat 0 100%; background-size: 100% 110%;}
+.z-body .sm-img{width: 100%;position: absolute;top: 0;height: 70%;left:0;}
+.z-body .idt-img{width: 50%;position: absolute;left:25%;top: 70px;}
+.cs3-pane{} 
+.z-main{padding:0 50px;background:#6898f0;/*perspective: 800px;*/overflow:hidden;width: 100%;height:140px;box-sizing: border-box;}
+.z-main li{float: left;width:16.66%;/*padding:10px 0;*/color: #e3effe;font-size: 20px;position: relative;
+height:100%;box-sizing: border-box;
+}
+.z-main li.bg1>.front{background:#87befc;}
+.z-main li.bg2>.front{background:#87dffc;}
+.z-main li.bg3>.front{background:#87befc;}
+.z-main li.bg4>.front{background:#6898f0;}
+.z-main li.bg5>.front{background:#abd1fd;}
+.z-main li.bg6>.front{background:#9ab4ff;}
+.z-main li{}
+.z-main li span{display: block;text-align: center;letter-spacing: 4px;backface-visibility: visible!important;}
+.z-main li .icon{text-align: center;backface-visibility: visible!important;}
+.z-main li .icon img{height: 90px;backface-visibility: visible!important;}
+.z-main li .front{box-sizing: border-box;padding-top:10px;}
+.z-main li .reverse{position: absolute;/*box-shadow:inset 1px 1px 30px #585858,inset 2px 2px 5px #787878;*/color: #343434;font-size:14px;width: 100%;height: 100%;box-sizing: border-box;background: url("../img/item-bg.png");top:0;left:0;padding:8px 12px;background-size: 100%}
+.z-main li .reverse .title{font-size: 18px;font-weight: bold;margin-bottom: 5px; color:#396FB0;    box-sizing: content-box;margin: 10px 70px 0 22px;/*border-bottom: 1px solid #ccc;*/}
+.z-main li .reverse .txt{font-size: 12px;color: #797979;line-height: 1.3;    margin: 10px 80px 0 0px;color:#3e3a39;}
+
+.z-main li.rotate{transform: rotateY(180deg);-moz-transform: rotateY(180deg);-webkit-transform: rotateY(180deg)}
+.z-main .filter{position: absolute;height: 100%;width: 100%;z-index: 100;left:0;padding:0 50px;box-sizing: border-box;}
+.z-main .filter>div{width: 16.66%;height: 100%;float: left;}
+
+.z-footer{height: 28px;background: rgba(55,57,58,0.9);color: #cbd9f4;font-size: 12px;text-align: center;line-height: 28px;}
+.fixed-section{position: fixed;right:0px;bottom:34%;width: 42px;color: #fff;z-index: 800;}
+.fixed-section .list{cursor: pointer;transition: .3s ease;position: relative;background: #333;}
+.fixed-section .list img{display: block;width: 24px;height: 40px;margin:0 auto;padding:8px 0;transition: .3s ease;box-sizing:border-box;}
+.fixed-section .list span{display:block;text-align: center;padding:3px 0;font-size: 14px;}
+.fixed-section .list .txt{position: absolute;top:0;left:0;white-space:nowrap;z-index:-1;padding:0 10px;height: 40px;line-height:40px;background: rgba(55,57,58,0.9);color:#ffffff;font-size: 15px;font-weight: bold;letter-spacing: 1px;}
+.z-fadeIn{animation: zFadeIn .6s ease .1s both;}
+@keyframes zFadeIn{
+	from{opacity: 0;transform: translate3d(0,100%,0);}
+	to{opacity: 1;transform:translate3d(0,0,0);}
+} 
+.header-bar{position:fixed;top:0;min-width:1280px;width:100%;height: 40px;background: rgba(55,57,58,0.9);color: #cbd9f4;z-index:600;}
+.header-bar .status{float:right;font-size: 14px;z-index: 300;height: 40px;line-height: 40px;right: 60px;}
+.header-bar .status a{color: #e2e2e2;font-size: 12px;}
+.header-bar .status>div{float: left;margin-right: 10px;}
+.header-bar .status>div img{height: 20px;vertical-align: middle;margin:0 2px 8px 0;}
+.header-bar .search{display: block;position:relative;padding-left:20px;cursor:pointer;float: right;margin-right:60px;width: 40px;height: 40px;background: url(../img/search.png) no-repeat 40px center;background-size: 20px 20px;}
+.header-bar .search-input{width:240px;position:absolute;opacity:0;display:none;border-radius:4px;right:-20px;top:100%;background:#ededed;padding:12px;z-index: 1000;}
+.header-bar .search-input:after{content: '';position: absolute;display: block;border:8px solid transparent;border-bottom:8px solid #fff;right:20px;top:-16px;}
+.header-bar .search-input input{float:left;width: 180px;background:#ffffff;height: 28px;line-height: 28px;border-radius:4px;box-sizing: border-box;padding:0 5px;border:1px solid #6D6B6B;}
+.header-bar .search-input input:focus{border:1px solid #000000;}
+.header-bar .sh-btn{border-radius: 6px;width: 50px;height: 28px;line-height: 28px;text-align: center;font-size: 13px;font-weight: bold;background: #333;color:#e2e2e2;float: right;}
+.header-bar .z-logo{display: block;float: left;height: 30px;margin:4px 0px 0 30px ;}
+
+.ani-logo1,.ani-logo2,.ani-logo3{display: block;}
+.ani-logo1{height:60px;margin-top:130px;}
+.sld1-title{font-size: 36px;color: #E10012;padding-left:5px;font-weight: bold;margin:10px 0;}
+.sld1-tx{font-size: 17px;width:300px;float:right;color: #302D2D;/*padding-left:5px;*/margin-right:8%;font-weight: bold;line-height: 2}
+.z-button1{float:right;margin-right:8%;padding:4px 12px;cursor:pointer;font-size: 14px;font-weight:bold;color:#ffffff;font-weight:bold;background: #D9534F;border-radius: 6px;}
+.z-button2{padding:4px 12px;cursor:pointer;font-size: 14px;font-weight:bold;color:#ffffff;margin:20px 0 0 5px;font-weight:bold;background: #F0AD4E;border-radius: 6px;float: left;}
+.z-button3{padding:4px 12px;cursor:pointer;font-size: 14px;font-weight:bold;color:#ffffff;margin:20px 0 0 0px;font-weight:bold;background: #36AFB9;border-radius: 6px;float: left;}
+
+.ani-logo2{height:60px;margin-top:80px;}
+.sld2-tx{font-size: 18px;width:600px;color: #302D2D;padding-left:10px;font-weight: bold;line-height:1.8;margin-top:6px;}
+.ani-logo3{height:60px;position: absolute;top:-80px;left:0;}
+.sld3-tx{font-size: 20px;width:735px;color: #203443;font-weight: bold;line-height:1.8;margin:204px 0 0 7%;position: relative;}
+.btn-pane{width: 735px;margin:20px 0 0 7%;}

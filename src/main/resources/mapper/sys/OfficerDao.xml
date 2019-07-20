@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zte.zudp.modules.sys.user.dao.OfficerDao">
+
+    <cache />
+    <!-- <sql id="dictColumn">
+        o.id,
+        o.type,
+        o.label,
+        o.value,
+        o.mark,
+        o.weight,
+        o.status,
+        o.create_date,
+        o.create_user,
+        o.update_date,
+        o.update_user,
+        o.del
+    </sql> -->
+    
+    
+    <sql id="officerList">
+		o.id,
+		o.name,
+		o.image,
+		o.job,
+		o.skill
+	</sql>
+	
+	<sql id="officerDetail">
+		o.id,
+		o.name,
+		o.image,
+		o.sex,
+		o.address,
+		o.telephone,
+		o.email,
+		o.job,
+		o.skill,
+		o.hobby,
+		o.educational,
+		o.work,
+		o.experience,
+		o.evaluate
+	</sql>
+	
+	
+	<select id="getOfficerList"   resultType="com.zte.zudp.modules.sys.user.entity.Officer">
+		SELECT
+			<include refid="officerList"/>
+		FROM sys_officer o	
+		WHERE o.delState=1
+		ORDER BY o.weight desc
+	</select>
+	
+   <select id="get" resultType="com.zte.zudp.modules.sys.user.entity.Officer" useCache="true">
+        SELECT 
+        	*
+        FROM sys_officer o
+        WHERE o.id = #{id} AND o.delState=1
+    </select> 
+
+    <select id="findList" resultType="com.zte.zudp.modules.sys.user.entity.Officer" useCache="false">
+        SELECT 
+       <!--  <include refid="dictColumn" /> -->
+       	*
+        FROM sys_officer o
+        WHERE o.delState = 1
+        	
+        	<if test="name != null and  name != ''">
+                AND o.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        ORDER BY o.weight desc
+    </select>
+
+   <insert id="insert" parameterType="com.zte.zudp.modules.sys.user.entity.Officer">
+        INSERT INTO sys_officer (
+            id,
+            name,
+            image,
+            jobState,
+            sex,
+            job,
+            department,
+            weight,
+            telephone,
+            email,
+            skill,
+            hobby,
+            address,
+            delState,
+            <!-- discription, -->
+            educational,
+            work,
+            experience,
+            evaluate
+        ) VALUES (
+          	#{id},
+            #{name},
+            #{image},
+            #{jobState},
+            #{sex},
+            #{job},
+            #{department},
+            #{weight},
+            #{telephone},
+            #{email},
+            #{skill},
+            #{hobby},
+            #{address},
+            #{delState},
+            <!-- #{discription}, -->
+            #{educational},
+            #{work},
+            #{experience},
+            #{evaluate}
+        )
+    </insert>
+
+  <update id="update" parameterType="com.zte.zudp.modules.sys.user.entity.Officer">
+        UPDATE sys_officer o SET
+            o.name=#{name},
+            o.image=#{image},
+            o.jobState=#{jobState},
+            o.sex=#{sex},
+            o.job=#{job},
+            o.department=#{department},
+            o.weight=#{weight},
+            o.telephone=#{telephone},
+            o.email=#{email},
+            o.skill=#{skill},
+            o.hobby=#{hobby},
+            o.address=#{address},
+            o.delState=#{delState},
+            <!-- o.discription=#{discription}, -->
+            o.educational=#{educational},
+            o.work=#{work},
+            o.experience=#{experience},
+            o.evaluate=#{evaluate}
+        WHERE o.id = #{id}
+    </update>
+   	
+   	<delete id="batchDelete">
+        UPDATE sys_officer SET
+          delState = 0
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete> 
+
+    <delete id="delete">
+        UPDATE sys_officer
+            SET delState = 0
+        WHERE id = #{id}
+    </delete>
+
+    
+
+</mapper>

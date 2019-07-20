@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zte.zudp.modules.sys.previewUser.dao.PreviewUserDao">
+
+    <cache />
+    
+    
+    
+    
+	
+	<sql id="previewUserDetail">
+		p.id,
+		p.previewUserName,
+		p.previewPassword,
+		p.startDate,
+		p.endDate,
+		p.viewResources,
+		p.delState
+	</sql>
+	
+	<sql id="previewUserResourceDetail">
+		pr.id,
+		pr.previewUserID,
+		pr.resourceID,
+		pr.resourceStr
+	</sql>
+	
+	
+	
+   <select id="get" resultType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUser" useCache="true">
+        SELECT 
+        	<include refid="previewUserDetail" />
+        FROM sys_previewUser p
+        WHERE p.id = #{id} 
+    </select> 
+
+    <select id="findList" resultType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUser" useCache="false">
+        SELECT 
+       	<include refid="previewUserDetail" />
+        FROM sys_previewUser p
+        <where>
+        	<if test="previewUserName != null and previewUserName != ''">
+        		p.previewUserName LIKE concat('%', #{previewUserName}, '%')
+        	</if>
+        </where>
+        ORDER BY p.startDate desc 
+    </select>
+	
+	<select id="getBypreviewUserNameAndPwd" resultType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUser" parameterType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUser">
+		SELECT
+			p.id,
+			p.previewUserName,
+			p.previewPassword,
+			p.startDate,
+			p.endDate,
+			p.viewResources,
+			p.delState
+		FROM sys_previewUser p 
+		WHERE
+			p.previewUserName = #{previewUserName}
+			AND 
+			p.previewPassword = #{previewPassword} 
+	</select>
+	
+	<select id="getPreviewUserResourcesByIds" resultType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUserResources" useCache="false">
+		SELECT  
+			pr.id,
+			pr.previewUserID,
+			pr.resourceID,
+			pr.resourceStr
+		FROM sys_previewuser_resources pr
+		WHERE
+			pr.previewUserID = #{previewUserID}
+			AND
+			pr.resourceID = #{resourceID}
+	</select>
+	
+	<select id="getPuResourcesByPuID" resultType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUserResources" useCache="false">
+		SELECT 
+			pr.id,
+			pr.previewUserID,
+			pr.resourceID,
+			pr.resourceStr
+		FROM sys_previewuser_resources pr
+		WHERE
+			pr.previewUserID = #{id}	
+	</select>
+	
+	<select id="checkPreviewUserName" resultType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUser">
+		SELECT 
+			p.id,
+			p.previewUserName
+		FROM sys_previewUser p	
+		WHERE 
+			p.previewUserName = #{previewUserName}
+	</select>
+
+   <insert id="insert" parameterType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUser">
+        INSERT INTO sys_previewUser (
+            id,
+            previewUserName,
+            previewPassword,
+            startDate,
+            endDate,
+            viewResources,
+            delState
+        ) VALUES (
+          	#{id},
+            #{previewUserName},
+            #{previewPassword},
+            #{startDate},
+            #{endDate},
+            #{viewResources},
+            #{delState}
+        )
+    </insert>
+    
+    <insert id="saveResource" parameterType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUserResources">
+    	INSERT INTO sys_previewuser_resources(
+    		id,
+    		previewUserID,
+    		resourceID,
+    		resourceStr
+    	)VALUES(
+    		#{id},
+    		#{previewUserID},
+    		#{resourceID},
+    		#{resourceStr}
+    	)
+    </insert>
+
+	<update id="qiyong">
+		UPDATE sys_previewUser
+            SET delState = 1
+        WHERE id = #{id}
+	</update>
+
+  <update id="update" parameterType="com.zte.zudp.modules.sys.previewUser.entity.PreviewUser">
+        UPDATE sys_previewUser p SET
+            p.previewUserName=#{previewUserName},
+            p.previewPassword=#{previewPassword},
+            p.startDate=#{startDate},
+            p.endDate=#{endDate},
+            p.viewResources=#{viewResources},
+            p.delState=#{delState}
+        WHERE p.id = #{id}
+    </update>
+   	
+   	<delete id="batchDelete">
+        UPDATE sys_previewUser SET
+          delState = 0
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete> 
+
+    <delete id="delete">
+        UPDATE sys_previewUser
+            SET delState = 0
+        WHERE id = #{id}
+    </delete>
+	
+	<delete id="deleteInTrue">
+		DELETE FROM sys_previewuser_resources
+		WHERE
+			previewUserID=#{previewUserId}	
+	</delete>
+    
+
+</mapper>
