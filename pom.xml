@@ -24,7 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <commons-lang3.version>3.5</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <commons-codec.version>1.5</commons-codec.version>
         <javax.validation>1.1.0.Final</javax.validation>
         <poi.version>3.17</poi.version>
